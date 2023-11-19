@@ -1,4 +1,6 @@
 using SkymeyBlazor.Components;
+using SkymeyBlazor.Interfaces.User;
+using SkymeyBlazor.Model.Services;
 
 namespace SkymeyBlazor
 {
@@ -7,6 +9,8 @@ namespace SkymeyBlazor
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddSingleton<IUserRepository, UserService>();
+            builder.Services.AddSingleton<UserService>();
 
             // Add services to the container.
             builder.Services.AddRazorComponents()

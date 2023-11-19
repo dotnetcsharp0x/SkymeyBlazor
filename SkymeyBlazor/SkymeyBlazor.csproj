@@ -6,4 +6,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Skymey-main-lib">
+      <HintPath>..\..\Skymey-main-lib\Skymey-main-lib\bin\Release\net8.0\publish\Skymey-main-lib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
