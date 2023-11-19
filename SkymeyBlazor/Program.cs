@@ -11,7 +11,7 @@ namespace SkymeyBlazor
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddSingleton<IUserRepository, UserService>();
             builder.Services.AddSingleton<UserService>();
-
+            builder.Services.AddBlazorBootstrap();
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();

@@ -1,13 +1,16 @@
-﻿@inherits LayoutComponentBase
+﻿@using SkymeyBlazor.Components.Layout.TopMenu
+@inherits LayoutComponentBase
+
+
 
 <div class="page">
-    <div class="sidebar">
+    <div class="px-4 pt-2">
         <NavMenu />
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+        <div class="px-4 pt-2 d-flex justify-content-end">
+            <TopMenu />
         </div>
 
         <article class="content px-4">
@@ -21,3 +24,9 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("MainLayout");
+    }
+}

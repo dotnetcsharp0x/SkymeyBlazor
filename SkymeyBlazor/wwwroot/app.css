@@ -49,3 +49,37 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
+
+.page {
+    background-color: #1E293B;
+    color: #DADADA;
+}
+
+.navbar-brand-image img, #Logo img {
+    height: 55px;
+    width: 55px;
+}
+
+#Logo .navbar {
+    height:100%;
+}
+
+button:active, button:focus {
+    outline: none;
+}
+
+button::-moz-focus-inner {
+    border: 0;
+}
+
+button:active, button:focus {
+    outline: none !important;
+}
+
+button::-moz-focus-inner {
+    border: 0 !important;
+}
+
+.btn {
+    box-shadow: none !important
+}

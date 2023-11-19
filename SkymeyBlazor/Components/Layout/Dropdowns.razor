@@ -1,0 +1,37 @@
+﻿@inherits LayoutComponentBase
+@typeparam TItem
+
+
+<div class="dropdown-center">
+    <img src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" class="dropdown-toggle rounded-circle" id="navbarDropdown" height="50" width="50" 
+    data-toggle="dropdown" type="button" @onclick="e => this.show=!this.show "
+            aria-haspopup="true" aria-expanded="false">
+        @Tip
+    </img>
+    <CascadingValue name="Dropdown" Value="@this">
+        <ul class="dropdown-menu dropup @(show? "show":"")">
+            @ChildContent
+        </ul>
+    </CascadingValue>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment InitialTip { get; set; }
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    [Parameter]
+    public EventCallback<TItem> OnSelected { get; set; }
+
+    private bool show = false;
+    private RenderFragment Tip;
+
+    protected override void OnInitialized() { this.Tip = InitialTip; }
+    public async Task HandleSelect(TItem item, RenderFragment<TItem> contentFragment)
+    {
+        this.Tip = contentFragment.Invoke(item);
+        this.show = false;
+        StateHasChanged();
+        await this.OnSelected.InvokeAsync(item);
+    }
+}

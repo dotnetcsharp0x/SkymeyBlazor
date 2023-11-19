@@ -1,0 +1,11 @@
+﻿@using BlazorBootstrap
+@rendermode InteractiveServer
+
+<Dropdown AutoClose="true" AutoCloseBehavior="DropdownAutoCloseBehavior.Both">
+    <DropdownToggleButton Class="shadow-none"><img src="..\img\users\profile.png" height="50" width="50" /></DropdownToggleButton>
+    <DropdownMenu>
+        <DropdownItem To="/login" Type="ButtonType.Link" Class="m-0">Action</DropdownItem>
+        <DropdownItem To="#" Type="ButtonType.Link" Class="m-0">Another action</DropdownItem>
+        <DropdownItem To="#" Type="ButtonType.Link" Class="m-0">Something else here</DropdownItem>
+    </DropdownMenu>
+</Dropdown>
