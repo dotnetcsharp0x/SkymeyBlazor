@@ -1,3 +1,48 @@
 ﻿@page "/Login"
+@using Skymey_main_lib.Models.Login
+@rendermode InteractiveServer
+@using BlazorBootstrap
+@inject ILogger<LoginForm> Logger
 
 <PageTitle>Login</PageTitle>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-4 offset-xl-4">
+            <EditForm Model="@Model" OnValidSubmit="@Submit" FormName="Starship1" class="user-form text-center">
+                <img src="..\img\Logo\logo.png" height="120" width="120" class="m-4"/>
+                <h3>Login in Skymey</h3>
+                <DataAnnotationsValidator />
+                <AntiforgeryToken />
+                <ul class="validation-errors list-group">
+                    <ValidationMessage For="@(() => Model!.Email)" />
+                    <ValidationMessage For="@(() => Model!.Password)" />
+                </ul>
+                <div class="input-group py-2">
+                    <span class="input-group-text"><Icon Name="IconName.Mailbox" /></span>
+                    <InputText @bind-Value="Model!.Email" class="form-control shadow-none" placeholder="Email" />
+                </div>
+                <div class="input-group py-2">
+                    <span class="input-group-text"><Icon Name="IconName.Regex" /></span>
+                    <InputText @bind-Value="Model!.Password" class="form-control shadow-none" placeholder="Password" />
+                </div>
+                <Switch @bind-Value="RememberMe" Label="Remember me" Class="d-flex" />
+                <hr />
+                <button type="submit" class="btn btn-primary">Login</button>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+    bool RememberMe;
+    [SupplyParameterFromForm]
+    public LoginForm? Model { get; set; }
+
+    protected override void OnInitialized() => Model ??= new();
+
+    private void Submit()
+    {
+        Logger.LogInformation($"{Model?.Email}-{Model.Password}-{RememberMe}");
+    }
+}

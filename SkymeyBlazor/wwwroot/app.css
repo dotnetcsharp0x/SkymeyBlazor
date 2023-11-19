@@ -50,7 +50,7 @@ h1:focus {
     border-color: #929292;
 }
 
-.page {
+.page, body {
     background-color: #1E293B;
     color: #DADADA;
 }
@@ -59,8 +59,7 @@ h1:focus {
     height: 55px;
     width: 55px;
 }
-
-#Logo .navbar {
+#Logo .bb-sidebar-top-row {
     height:100%;
 }
 
@@ -82,4 +81,37 @@ button::-moz-focus-inner {
 
 .btn {
     box-shadow: none !important
+}
+
+
+
+.input-group span {
+    background-color: transparent;
+    color: #DADADA;
+    border: 1px solid #374151;
+}
+*:focus {
+    outline: none;
+}
+
+.user-form button {
+    background-color: rgb(190 18 60);
+    border: 1px solid rgb(190 18 60);
+}
+
+.user-form button:hover {
+    background-color: rgb(159 18 57);
+    border: 1px solid rgb(159 18 57);
+}
+
+.form-switch label {
+    padding-left:10px;
+}
+
+.input-group input, .input-group input:active, .input-group input:focus {
+    background-color: #374151;
+    border: 1px solid #374151;
+    outline: 0;
+    outline-offset: 0;
+    color: #DADADA;
 }

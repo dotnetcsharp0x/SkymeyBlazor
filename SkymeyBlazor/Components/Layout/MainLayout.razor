@@ -3,19 +3,23 @@
 
 
 
-<div class="page">
-    <div class="px-4 pt-2">
+<div class="page container-fluid">
+    <div class="px-4 pt-2 ">
         <NavMenu />
     </div>
 
-    <main>
-        <div class="px-4 pt-2 d-flex justify-content-end">
-            <TopMenu />
-        </div>
+    <main class="row">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="px-4 pt-2 float-end justify-content-end">
+                    <TopMenu />
+                </div>
 
-        <article class="content px-4">
-            @Body
-        </article>
+                <article class="content px-4">
+                    @Body
+                </article>
+            </div>
+        </div>
     </main>
 </div>
 

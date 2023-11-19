@@ -8,6 +8,7 @@
          id="Logo"
          DataProvider="SidebarDataProvider" />
 
+
 @code{
     Sidebar sidebar;
     IEnumerable<NavItem> navItems;
@@ -28,7 +29,7 @@
             new NavItem { Href = "/alerts", IconName = IconName.CheckCircleFill, Text = "Alerts"},
             new NavItem { Href = "/autocomplete", IconName = IconName.InputCursorText, Text = "Auto Complete"},
             new NavItem { Href = "/breadcrumb", IconName = IconName.SegmentedNav, Text = "Breadcrumb"},
-            new NavItem { Href = "/sidebar", IconName = IconName.LayoutSidebarInset, Text = "Sidebar"},
+            new NavItem { Href = "/weather", IconName = IconName.LayoutSidebarInset, Text = "Sidebar"},
         };
         return navItems;
     }
