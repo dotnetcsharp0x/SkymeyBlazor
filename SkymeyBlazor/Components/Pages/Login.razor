@@ -1,8 +1,14 @@
 ﻿@page "/Login"
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using SkymeyBlazor.Model.Services
 @using Skymey_main_lib.Models.Login
 @rendermode InteractiveServer
 @using BlazorBootstrap
+@using Skymey_main_lib.Models.Tables.User
 @inject ILogger<LoginForm> Logger
+@inject UserService UserRepository
+@inject ProtectedSessionStorage ProtectedSessionStore
+@inject ProtectedLocalStorage ProtectedLocalStore
 
 <PageTitle>Login</PageTitle>
 
@@ -41,8 +47,12 @@
 
     protected override void OnInitialized() => Model ??= new();
 
-    private void Submit()
+    private async Task Submit()
     {
         Logger.LogInformation($"{Model?.Email}-{Model.Password}-{RememberMe}");
+        var resp = await UserRepository.Login(new SU_001LoginViewModel{ Email = Model.Email, Password = Model.Password });
+        Logger.LogInformation($"{resp.AccessToken}");
+        await ProtectedLocalStore.SetAsync("RefreshToken", resp.RefreshToken!);
+        await ProtectedSessionStore.SetAsync("AccessToken", resp.AccessToken!);
     }
 }
