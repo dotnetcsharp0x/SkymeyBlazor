@@ -53,6 +53,6 @@
         var resp = await UserRepository.Login(new SU_001LoginViewModel{ Email = Model.Email, Password = Model.Password });
         Logger.LogInformation($"{resp.AccessToken}");
         await ProtectedLocalStore.SetAsync("RefreshToken", resp.RefreshToken!);
-        await ProtectedSessionStore.SetAsync("AccessToken", resp.AccessToken!);
+        await ProtectedLocalStore.SetAsync("AccessToken", resp.AccessToken!);
     }
 }
