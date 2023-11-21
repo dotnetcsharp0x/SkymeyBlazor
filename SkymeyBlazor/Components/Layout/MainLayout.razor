@@ -1,11 +1,8 @@
-﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
-@using SkymeyBlazor.Components.Layout.TopMenu
+﻿@using SkymeyBlazor.Components.Layout.TopMenu
 @using SkymeyBlazor.Model.Services
 @using Skymey_main_lib.Models.JWT
 @inherits LayoutComponentBase
-@inject ProtectedLocalStorage ProtectedLocalStore
-@inject ProtectedSessionStorage protectedSessionStorage
-@inject UserService UserRepository
+
 
 
 
@@ -34,29 +31,3 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
-@code {
-    protected override async Task OnInitializedAsync()
-    {
-        Console.WriteLine("MainLayout");
-    }
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            var AccessToken = await ProtectedLocalStore.GetAsync<string>("AccessToken");
-            var RefreshToken = await ProtectedLocalStore.GetAsync<string>("RefreshToken");
-            if (RefreshToken.Value != null)
-            {
-                AuthenticatedResponse aresp = new AuthenticatedResponse();
-                aresp.AccessToken = AccessToken.Value;
-                aresp.RefreshToken = RefreshToken.Value;
-                Console.WriteLine(aresp.AccessToken);
-                AuthenticatedResponse a = await UserRepository.Refresh(aresp);
-                Console.WriteLine(a.AccessToken);
-                await ProtectedLocalStore.SetAsync("RefreshToken", a.RefreshToken);
-                await ProtectedLocalStore.SetAsync("AccessToken", a.AccessToken);
-                StateHasChanged();
-            }
-        }
-    }
-}

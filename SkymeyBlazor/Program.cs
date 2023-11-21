@@ -1,6 +1,7 @@
 using SkymeyBlazor.Components;
 using SkymeyBlazor.Interfaces.User;
 using SkymeyBlazor.Model.Services;
+using Toolbelt.Blazor.Extensions.DependencyInjection;
 
 namespace SkymeyBlazor
 {
@@ -11,6 +12,8 @@ namespace SkymeyBlazor
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddSingleton<IUserRepository, UserService>();
             builder.Services.AddSingleton<UserService>();
+            builder.Services.AddScoped<UserService>();
+            
             builder.Services.AddBlazorBootstrap();
             // Add services to the container.
             builder.Services.AddRazorComponents()

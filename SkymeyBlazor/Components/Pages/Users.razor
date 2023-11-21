@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using SkymeyBlazor.Model.Services
 @using Skymey_main_lib.Models
+@using Skymey_main_lib.Models.JWT
 @using Skymey_main_lib.Models.Tables.User
 @attribute [StreamRendering]
 @inject UserService UserRepository
@@ -49,6 +50,7 @@ else
 
 @code {
     private List<SU_001ListViewModel> exchanges;
+
     // protected override async Task OnInitializedAsync()
     // {
     //     exchanges = await UserRepository.GetUsers("CfDJ8KhMTUCZwwhGjW9Uvvwm4D_34dyIG4sUO7y_YifT_QFQEZwYuMgDGp53q6B03rKa9DAqyzm_Ud9X0sKxvvgo5G_EfwDpm5R3owBUDEi2xd527LnrXupPYJmr_p0ZKkMp23MHsQzSmq5R3ulXZmEiRCrCJHcP4l57Td8SEH3rVYz4W1AVDBoFR40k2uBOqi6UUylG8SkBABXS7oER1LPS2P_Y6vfSkj7OKaqopMHwM2Nh7FHxPTQYGdEG2hYVj2Xb-bTnTS2V9yn2BWR1tVm1q9Vf74XvI6_hkxsJDKmlKb-n3VvgKRcJnQ-A4qyOTBwDSAdp06PGJI5ncxCiP7WG4-I75CuEFVkOlwS1kI4MaNcgB1WAJULw2cewHlizAps_ihwC5GejUke370_WDgxXwTl7sAf61QYjt1yRbAuu93Ra8kYdOhYFaFTgWS-2cMtzlw07JyeG87faRyrqkMRbvYUyJu8zxfpDCzt95RYu9RVgugClyHe03LEdz5iJbc-s22Uzyr_08c2kUxvptrD6wuuG4E1wNvHYGsvMBFQ46S7T90-7TLcop7oBZ1LuXOWkRCzN3PJjwrXDTUpj-isZVHVS2vqxk5hgbzVvgA8fOCpJ_40TR3AjiZMPih99HOXDhth1jpYGASWcfMdr2xyHPaqhrbBAj3EOj5VsFCUD7ctUitwj2wCxg3RhaqXqdR_OpFHphaMEcKr_sQ-ul8yTpzWaTbSTPrrkyR5Qpor5Yq2G87s9qHDMq5rHbXc5quQbP4Vb7xLfBABJ-XsI9aK5KCNPZ2dDxfuWV74qouPHKyHvqv9U_kulTNMuT54jz6gUtEcsFRjlTAUeOrLl4CBSfq8".ToString());
@@ -57,10 +59,27 @@ else
     {
         if (firstRender)
         {
+            var AccessToken = await ProtectedLocalStore.GetAsync<string>("AccessToken");
+            var RefreshToken = await ProtectedLocalStore.GetAsync<string>("RefreshToken");
             var result = await ProtectedLocalStore.GetAsync<string>("AccessToken");
             if (result.Value != null)
             {
-                exchanges = await UserRepository.GetUsers(result.Value!.ToString());
+                AuthenticatedResponse aresp = new AuthenticatedResponse();
+                aresp.AccessToken = AccessToken.Value;
+                aresp.RefreshToken = RefreshToken.Value;
+                Console.WriteLine("old token");
+                Console.WriteLine(aresp.AccessToken);
+                
+                AuthenticatedResponse a = await UserRepository.Refresh(aresp);
+
+                Console.WriteLine("New token");
+                Console.WriteLine(a.AccessToken);
+                await ProtectedLocalStore.SetAsync("RefreshToken", a.RefreshToken!);
+                await ProtectedLocalStore.SetAsync("AccessToken", a.AccessToken!);
+                if (a.AccessToken != null)
+                {
+                    exchanges = await UserRepository.GetUsers(a.AccessToken!.ToString());
+                }
                 //exchanges = await UserRepository.GetUsers("CfDJ8KhMTUCZwwhGjW9Uvvwm4D9FKVe__bNcvawq0DJ6fGQfmD072e--bywXSNSdIRWBwk6uDtl6XYHnChtuZKduzCkK-Vv-d-1eof3ryqk6Ohwrt-c92L1EcNqklt79OEBD3_ZndQLAAxxix0NXmhgC-pVlPqk_Vu--07m-rLkbXCSDo8783u_UFqphdtB90d87oPhtTb1kF4NwEQbsM0byk7_9V0LYW9Nn36b_DgbBgZduYMg-g4fq8r8lOeWWQNL2u4BSFWiV9JtiOCkJO8TgVJNF4e6H289voU2eoP585LmPuTOiqxjKDw9_3fYY2UlYH03L3JTpujjpyvxer_G62ymK1fFali6N2bYQq62FizLuWKaCzNHoOyDHMg5j0ODTXB3txFQL7XAkqMTW3uYc1VhDt-8H0KEewl-MM4X1VaeK5cOg5fDHeLmQHPMth1li4IOwWHu1YGN8dWk1TQphjdFFCBycHNzKh-CC7OpCcEutE3COmQrUWBycu8ORaVz5h4W7qd0FGz4iB4QrLvOzWEOi-7HqjorKo1tDLrc7GxEHHeIbRsoc5QwNwoWBfoBeBT2Dr0i_83hYr1kUAg1MjQrRrApxQrL19d50Rv1Hk7MJBcmpHRLnIypQ30PFBhNnBJrEd6JvSNUX2oqLPSm4bzfG5g2e1SGr_N8vLQcIcAtNs-NsPdNn5C9INMFH7dggv1FVk0oNjpvMVRZrh8pbryFtdfxFeQBGLBI7TgEXQIoaRzUZaRC6RY2tbkntFjYnShPYCUOyRIKgMYarXq8RsDdVQfv4vZo5TOiqs4gMKKD_uo7GqLLr4vANH_JmubczulmARh7uoDbvvIGk1Nr-0xY");
                 Console.WriteLine(exchanges.First().FirstName);
                 StateHasChanged();

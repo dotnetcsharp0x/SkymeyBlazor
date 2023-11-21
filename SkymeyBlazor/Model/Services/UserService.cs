@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.JSInterop;
 using RestSharp;
 using Skymey_main_lib.Models;
@@ -16,6 +17,8 @@ namespace SkymeyBlazor.Model.Services
 {
     public class UserService : IUserRepository
     {
+        public UserService() {
+        }
         public async Task<List<ExchangesViewModel>> GetExchanges()
         {
             return await new HttpClient().GetFromJsonAsync<List<ExchangesViewModel>>("https://46.22.247.253:5007/api/Crypto/GetExchanges");
@@ -69,5 +72,15 @@ namespace SkymeyBlazor.Model.Services
                 return new List<SU_001ListViewModel> { };
             }
         }
+
+        //public async Task<List<SU_001ListViewModel>> GetUsers(string token)
+        //{
+        //    var client = new HttpClient();
+        //    var request = new HttpRequestMessage(HttpMethod.Get, "https://46.22.247.253:5007/api/User/GetUsers?token="+token);
+        //    //request.Headers.Add("Authorization", "Bearer " + token);
+        //    var response = await client.SendAsync(request);
+        //    response.EnsureSuccessStatusCode();
+        //    return JsonSerializer.Deserialize<List<SU_001ListViewModel>>(response.Content.ToString());
+        //}
     }
 }
