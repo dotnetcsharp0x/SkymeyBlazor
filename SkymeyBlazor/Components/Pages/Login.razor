@@ -1,6 +1,7 @@
 ﻿@page "/Login"
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using SkymeyBlazor.Model.Services
+@using SkymeyBlazor.Services
 @using Skymey_main_lib.Models.Login
 @rendermode InteractiveServer
 @using BlazorBootstrap
@@ -9,6 +10,7 @@
 @inject UserService UserRepository
 @inject ProtectedSessionStorage ProtectedSessionStore
 @inject ProtectedLocalStorage ProtectedLocalStore
+@inject IAuthenticationService AuthenticationService;
 
 <PageTitle>Login</PageTitle>
 
@@ -50,9 +52,10 @@
     private async Task Submit()
     {
         Logger.LogInformation($"{Model?.Email}-{Model.Password}-{RememberMe}");
-        var resp = await UserRepository.Login(new SU_001LoginViewModel{ Email = Model.Email, Password = Model.Password });
-        Logger.LogInformation($"{resp.AccessToken}");
-        await ProtectedLocalStore.SetAsync("RefreshToken", resp.RefreshToken!);
-        await ProtectedLocalStore.SetAsync("AccessToken", resp.AccessToken!);
+        // var resp = await UserRepository.Login(new SU_001LoginViewModel{ Email = Model.Email, Password = Model.Password });
+        // Logger.LogInformation($"{resp.AccessToken}");
+        // await ProtectedLocalStore.SetAsync("RefreshToken", resp.RefreshToken!);
+        // await ProtectedLocalStore.SetAsync("AccessToken", resp.AccessToken!);
+        await AuthenticationService.LoginAsync(new SU_001LoginViewModel { Email = Model.Email, Password = Model.Password });
     }
 }
