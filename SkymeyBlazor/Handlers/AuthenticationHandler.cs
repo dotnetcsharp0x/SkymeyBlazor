@@ -18,6 +18,7 @@ namespace SkymeyBlazor.Handlers
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
+            Console.WriteLine("D");
             var jwt = await _authenticationService.GetJwtAsync();
             var isToServer = request.RequestUri?.AbsoluteUri.StartsWith(_configuration["ServerUrl"] ?? "") ?? false;
 

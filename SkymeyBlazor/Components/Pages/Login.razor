@@ -10,7 +10,6 @@
 @inject UserService UserRepository
 @inject ProtectedSessionStorage ProtectedSessionStore
 @inject ProtectedLocalStorage ProtectedLocalStore
-@inject IAuthenticationService AuthenticationService;
 
 <PageTitle>Login</PageTitle>
 
@@ -56,6 +55,6 @@
         // Logger.LogInformation($"{resp.AccessToken}");
         // await ProtectedLocalStore.SetAsync("RefreshToken", resp.RefreshToken!);
         // await ProtectedLocalStore.SetAsync("AccessToken", resp.AccessToken!);
-        await AuthenticationService.LoginAsync(new SU_001LoginViewModel { Email = Model.Email, Password = Model.Password });
+        //await AuthenticationService.LoginAsync(new SU_001LoginViewModel { Email = Model.Email, Password = Model.Password });
     }
 }
